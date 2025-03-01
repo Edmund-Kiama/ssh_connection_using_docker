@@ -10,72 +10,15 @@ The two containers are connected via SSH to demonstrate container-to-container c
 - Docker installed on your system
 - Basic knowledge of Docker commands
 
-## Project Structure
-```
-.
-├── Dockerfile.server
-├── Dockerfile.client
-├── docker-compose.yml
-└── README.md
-```
-
 ## Setup Instructions
 
-### Step 1: Create Dockerfiles
-
-#### `Dockerfile.server` (OpenSSH Server Container)
-```Dockerfile
-FROM ubuntu:latest
-RUN apt-get update && apt-get install -y openssh-server nano
-RUN echo 'root:root' | chpasswd
-RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-RUN mkdir /var/run/sshd
-EXPOSE 22
-CMD ["service", "ssh", "start"] && tail -f /dev/null
-```
-
-#### `Dockerfile.client` (OpenSSH Client Container)
-```Dockerfile
-FROM ubuntu:latest
-RUN apt-get update && apt-get install -y openssh-client
-CMD ["sleep", "infinity"]
-```
-
-### Step 2: Create `docker-compose.yml`
-```yaml
-version: '3'
-services:
-  ssh-server:
-    build:
-      context: .
-      dockerfile: Dockerfile.server
-    container_name: ssh_server
-    networks:
-      - ssh_network
-    restart: always
-
-  ssh-client:
-    build:
-      context: .
-      dockerfile: Dockerfile.client
-    container_name: ssh_client
-    networks:
-      - ssh_network
-    depends_on:
-      - ssh-server
-    restart: always
-
-networks:
-  ssh_network:
-    driver: bridge
-```
-
-### Step 3: Build and Run the Containers
+### Step 1: Build and Run the Containers
+Assuming you already have `Dockerfile.server`, `Dockerfile.client`, and `docker-compose.yml` set up, you can start by building and running the containers:
 ```sh
 docker-compose up -d --build
 ```
 
-### Step 4: Configure and Connect to the Server
+### Step 2: Configure and Connect to the Server
 1. Start the server container:
    ```sh
    docker start ssh_server
@@ -103,7 +46,7 @@ docker-compose up -d --build
    ```
    - Copy the displayed IP address for use in the next step.
 
-### Step 5: Connect from the Client to the Server
+### Step 3: Connect from the Client to the Server
 1. Start the client container:
    ```sh
    docker start ssh_client
@@ -134,7 +77,7 @@ docker-compose up -d --build
    ssh root@<IP_ADDRESS>
    ```
    - If prompted, type `yes` to accept the fingerprint.
-   - Use the password `1234` (as set in Step 4).
+   - Use the password `1234` (as set in Step 2).
 
 ## Cleanup
 To stop and remove the containers:

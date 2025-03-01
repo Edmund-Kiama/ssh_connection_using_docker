@@ -1,0 +1,25 @@
+version: '3'
+services:
+  ssh-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+    container_name: ssh_server
+    networks:
+      - ssh_network
+    restart: always
+
+  ssh-client:
+    build:
+      context: .
+      dockerfile: Dockerfile.client
+    container_name: ssh_client
+    networks:
+      - ssh_network
+    depends_on:
+      - ssh-server
+    restart: always
+
+networks:
+  ssh_network:
+    driver: bridge

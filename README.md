@@ -13,7 +13,8 @@ The two containers are connected via SSH to demonstrate container-to-container c
 ## Setup Instructions
 
 ### Step 1: Build and Run the Containers
-Assuming you already have `Dockerfile.server`, `Dockerfile.client`, and `docker-compose.yml` set up, you can start by building and running the containers:
+Make sure to fork and clone this repo to get `Dockerfile.server`, `Dockerfile.client` and `docker-compose.yml`.
+You can start by building and running the containers using:
 ```sh
 docker-compose up -d --build
 ```

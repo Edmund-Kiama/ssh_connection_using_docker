@@ -16,7 +16,7 @@ The two containers are connected via SSH to demonstrate container-to-container c
 Make sure to fork and clone this repo to get `Dockerfile.server`, `Dockerfile.client` and `docker-compose.yml`.
 You can start by building and running the containers using:
 ```sh
-docker-compose up -d --build
+docker compose up -d --build
 ```
 
 ### Step 2: Configure and Connect to the Server
@@ -81,15 +81,20 @@ docker-compose up -d --build
    - Use the password `1234` (as set in Step 2).
 
 ## Cleanup
-To stop and remove the containers:
-```sh
-docker-compose down
-```
+1. To exit connection and from bash
+   ```sh
+   exit
+   ```
+   - This will close the connection of the two containers.
+   ```sh
+   exit
+   ```
+   - `exit` again to exit from bash
+2. To stop and remove the containers:
+   ```sh
+   docker compose down  
+   ```
 
 ## Conclusion
 This project demonstrates how to set up SSH communication between two Docker containers using OpenSSH. It can be expanded to include more security configurations like SSH key authentication.
-
----
-
-For improvements, consider using **non-root users** and **SSH key-based authentication** for better security.
 
